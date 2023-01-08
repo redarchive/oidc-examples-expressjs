@@ -19,7 +19,7 @@ const log = console.log
   const REDIRECT_URI = `http://localhost:${PORT}/callback`
 
   // 검증용 NONCE: 아무 값이나 사용
-  const NONCE = `example-${Math.random()}`
+  const NONCE = 'example'
 
   // 로그인 주소
   const LOGIN_URL =
@@ -49,14 +49,8 @@ app.get('/callback', (req, res) => {
   log(`ㄴ 전달받은 id_token = "${req.query.id_token}"`)
 
   const decoded = jwt.decode(req.query.id_token)
-
   log(`ㄴ id_token을 JWT로 디코딩 한 결과:`, decoded)
 
-  if (decoded.nonce === NONCE)
-    log('ㄴ nonce값이 동일한 것을 확인했습니다. (안전함)')
-  else
-    log('ㄴ nonce값이 다릅니다. 서버가 재시작 했거나 보안 결함이 있습니다. (안전하지 않음)')
-  
   res.set('Content-Type', 'text/plain')
   res.send(`LOGIN RESULT:\n${JSON.stringify(decoded, null, 2)}`)
 })
